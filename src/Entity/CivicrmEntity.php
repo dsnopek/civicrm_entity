@@ -28,7 +28,6 @@ class CivicrmEntity extends ContentEntityBase {
   }
 
   protected static function createBaseFieldDefinition(array $civicrm_field, $civicrm_entity_id) {
-//    dpm($civicrm_field);
     if ($civicrm_field['name'] == 'id') {
       $field = BaseFieldDefinition::create('integer')
         ->setReadOnly(TRUE)
