@@ -25,6 +25,7 @@ function civicrm_entity_entity_type_build(array &$entity_types) {
       'originalClass' => \Drupal\civicrm_entity\Entity\CivicrmEntity::class,
       'id' => $entity_type_id,
       'civicrm_entity' => $enabled_entity_type,
+      'field_ui_base_route' => "entity.$entity_type_id.collection",
       'label' => new TranslatableMarkup('CiviCRM :name', [':name' => $civicrm_entity_info['civicrm entity name']]),
       // @todo add label_singular
       // @todo add label_plural

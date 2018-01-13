@@ -4,6 +4,7 @@ namespace Drupal\civicrm_entity\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 class CivicrmEntityForm extends ContentEntityForm {
   /**
@@ -21,6 +22,6 @@ class CivicrmEntityForm extends ContentEntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $this->entity->save();
     drupal_set_message($this->t('Saved %label.', ['%label' => $this->entity->label()]));
-    $form_state->setRedirectUrl($this->entity->toUrl('collection'));
+    $form_state->setRedirectUrl(Url::fromRoute("entity.{$this->entity->getEntityTypeId()}.collection"));
   }
 }

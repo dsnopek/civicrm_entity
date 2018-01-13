@@ -5,6 +5,7 @@ namespace Drupal\civicrm_entity\Entity;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 
 /**
  * Class for representing CiviCRM entities.
@@ -59,6 +60,7 @@ class CivicrmEntity extends ContentEntityBase {
               ])
               ->setDisplayOptions('form', [
                 'type' => 'options_select',
+                'weight' => 0,
               ]);
           }
           // Otherwise it is just a regular integer field.
@@ -70,6 +72,7 @@ class CivicrmEntity extends ContentEntityBase {
               ])
               ->setDisplayOptions('form', [
                 'type' => 'number',
+                'weight' => 0,
               ]);
           }
 
@@ -79,6 +82,7 @@ class CivicrmEntity extends ContentEntityBase {
           $field = BaseFieldDefinition::create('boolean')
             ->setDisplayOptions('form', [
               'type' => 'boolean_checkbox',
+              'weight' => 0,
               'settings' => [
                 'display_label' => TRUE,
               ],
@@ -101,6 +105,7 @@ class CivicrmEntity extends ContentEntityBase {
           ->setDisplayConfigurable('view', TRUE)
           ->setDisplayOptions('form', [
             'type' => 'string_textfield',
+            'weight' => 0,
           ])
           ->setDisplayConfigurable('form', TRUE);
         break;
@@ -113,22 +118,52 @@ class CivicrmEntity extends ContentEntityBase {
             ->setDisplayConfigurable('view', TRUE)
             ->setDisplayOptions('form', [
               'type' => 'text_textfield',
+              'weight' => 0,
             ])
             ->setDisplayConfigurable('form', TRUE);
           break;
 
         case \CRM_Utils_Type::T_EMAIL:
-          $field = BaseFieldDefinition::create('email');
+          $field = BaseFieldDefinition::create('email')
+            ->setSetting('max_length', 255)
+            ->setDisplayOptions('view', [
+              'label' => 'above',
+              'type' => 'string',
+              'weight' => 0,
+            ])
+            ->setDisplayOptions('form', [
+              'type' => 'text_textfield',
+              'weight' => 0,
+            ])
+            ->setDisplayConfigurable('form', TRUE)
+            ->setDisplayConfigurable('view', TRUE);
           break;
 
         case \CRM_Utils_Type::T_URL:
-          $field = BaseFieldDefinition::create('uri');
+          $field = BaseFieldDefinition::create('uri')
+            ->setDisplayOptions('form', [
+              'type' => 'uri',
+              'weight' => 0,
+            ])
+            ->setDisplayConfigurable('form', TRUE);
           break;
 
         case \CRM_Utils_Type::T_DATE:
+          $field = BaseFieldDefinition::create('datetime')
+            ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
+            ->setDisplayOptions('form', [
+              'type' => 'datetime_default',
+              'weight' => 0,
+            ]);
+          break;
         case \CRM_Utils_Type::T_TIME:
         case (\CRM_Utils_Type::T_DATE + \CRM_Utils_Type::T_TIME):
-          $field = BaseFieldDefinition::create('datetime');
+          $field = BaseFieldDefinition::create('datetime')
+            ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATETIME)
+            ->setDisplayOptions('form', [
+              'type' => 'datetime_default',
+              'weight' => 0,
+            ]);
           break;
 
         case \CRM_Utils_Type::T_ENUM:
