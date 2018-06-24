@@ -80,6 +80,7 @@ class FieldDefinitionProvider implements FieldDefinitionProviderInterface {
     }
 
     $field
+      ->setCustomStorage(TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setLabel($civicrm_field['title'])
