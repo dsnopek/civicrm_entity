@@ -54,6 +54,8 @@ function civicrm_entity_entity_type_build(array &$entity_types) {
         'id' => 'id',
         'label' => $civicrm_entity_info['label property'],
       ],
+      'base_table' => 'civicrm_entity_' . $civicrm_entity_name,
+      'data_table' => 'civicrm_entity_' . $civicrm_entity_name . '_field_data',
       'admin_permission' => 'administer civicrm entity',
       'permission_granularity' => 'entity_type',
       'handlers' => [

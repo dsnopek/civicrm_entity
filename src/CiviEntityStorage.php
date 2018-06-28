@@ -68,21 +68,21 @@ class CiviEntityStorage extends SqlContentEntityStorage {
       $civicrm_entities = $this->civicrmApi->get($this->entityType->get('civicrm_entity'));
       foreach ($civicrm_entities as $civicrm_entity) {
         $civicrm_entity = reset($civicrm_entity);
-        /** @var \Drupal\civicrm_entity\Entity\Events $entity */
-        $entity = $this->create($civicrm_entity);
+        /** @var \Drupal\civicrm_entity\Entity\CivicrmEntity $entity */
+        $entity = new $this->entityClass($civicrm_entity, $this->entityTypeId);
         $entities[$entity->id()] = $entity;
       }
     }
-    foreach ($ids as $id) {
-      $civicrm_entity = $this->civicrmApi->get($this->entityType->get('civicrm_entity'), ['id' => $id]);
-      $civicrm_entity = reset($civicrm_entity);
-      /** @var \Drupal\civicrm_entity\Entity\Events $entity */
-      $entity = $this->create($civicrm_entity);
-      // We have to build entities through values using `create`, however it
-      // enforces the entity as new. We must undo that.
-      $entity->enforceIsNew(FALSE);
-      $entities[$entity->id()] = $entity;
+    else {
+      foreach ($ids as $id) {
+        $civicrm_entity = $this->civicrmApi->get($this->entityType->get('civicrm_entity'), ['id' => $id]);
+        $civicrm_entity = reset($civicrm_entity);
+        /** @var \Drupal\civicrm_entity\Entity\CivicrmEntity $entity */
+        $entity = new $this->entityClass($civicrm_entity, $this->entityTypeId);
+        $entities[$entity->id()] = $entity;
+      }
     }
+
     return $entities;
   }
 
